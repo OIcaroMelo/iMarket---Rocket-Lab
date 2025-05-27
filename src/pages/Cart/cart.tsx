@@ -21,14 +21,25 @@ const Cart = () => {
     );
   }
 
+  const handleFinalizePurchase = () => {
+    let message = "Compra finalizada com sucesso!\n\nItens:\n";
+    cart.forEach((item) => {
+      message += `- ${item.name} x${item.quantity} = R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+    });
+    message += `\nTotal: R$ ${totalPrice.toFixed(2)}`;
+    alert(message);
+
+    clearCart();
+    navigate("/");
+  };
+
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-3xl font-bold mb-6">Seu Carrinho</h1>
 
-      <ul>
+        <ul>
         {cart.map((item) => (
           <li key={item.id} className="flex items-center mb-4 border-b pb-4">
-
             <div className="flex-1">
               <h2 className="font-semibold text-lg">{item.name}</h2>
               <p>Quantidade: {item.quantity}</p>
@@ -43,25 +54,34 @@ const Cart = () => {
             </button>
           </li>
         ))}
-      </ul>
+        </ul>
 
-      <div className="mt-6 flex justify-between items-center">
-        <button
-          onClick={clearCart}
-          className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
-        >
-          Limpar Carrinho
-        </button>
+        <div className="mt-6 flex justify-between items-center">
+            <button
+            onClick={clearCart}
+            className="px-4 py-2 bg-red-600 text-white rounded hover:bg-red-700"
+            >
+            Limpar Carrinho
+            </button>
+
+            <div className="flex gap-2">
+
+            <button
+                onClick={() => navigate("/")}
+                className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+            >
+                Voltar para a loja
+            </button>
+            </div>
+        </div>
 
         <p className="text-xl font-bold">Total: R$ {totalPrice.toFixed(2)}</p>
 
         <button
-          onClick={() => navigate("/")}
-          className="px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
-        >
-          Voltar para a loja
+            onClick={handleFinalizePurchase}
+            className="px-4 py-2 bg-green-700 text-white rounded hover:bg-green-700">
+            Finalizar Compra
         </button>
-      </div>
     </div>
   );
 };
